@@ -82,7 +82,13 @@ function fetch_spotify_user($token)
     $user = json_decode($response, true);
     curl_close($request);
 
-    return $user['display_name'];
+    if (isset($user['display_name'])) {
+        return $user['display_name'];
+    } elseif (isset($user['id'])) {
+        return $user['id'];
+    } else {
+        throw new Exception('Wrong user type: ' .$user);
+    }
 }
 
 function connect_to_db()
