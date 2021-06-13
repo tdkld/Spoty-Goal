@@ -1,3 +1,18 @@
+<?php
+session_start();
+$authenticated = false;
+if (isset($_SESSION['AUTH_SESSION_ID'])) {
+    if (validate_session($_SESSION['AUTH_SESSION_ID'])) {
+        $authenticated = true;
+    }
+}
+
+function validate_session($session_id)
+{
+    return false;
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,7 +33,7 @@
                     <a href="/" class="pure-menu-link">Home</a>
                 </li>
                 <li id="sign-in" class="pure-menu-item">
-                    <a href="#" class="pure-menu-link">Sign-in</a>
+                    <a href="/login.php" class="pure-menu-link">Sign-in</a>
                 </li>
             </ul>
         </div>
