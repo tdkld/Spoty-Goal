@@ -66,3 +66,75 @@ a {
     flex-grow: 1;
     margin: 3px;
 }
+
+.title {
+    font-size: 22px;
+    font-weight: 500;
+    text-align: center;
+    color: #424d1c; 
+}
+
+.form {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.form > input {
+    width: 100%;
+    font-size: 18px;
+}
+
+.success {
+    background-color: #708e72;
+    color: white;
+}
+
+.scrollable {
+    max-height: 50vh;
+    overflow-y: scroll;
+}
+
+.song-option {
+    display: flex;
+    width: 100%;
+    margin: 5px 0;
+}
+
+.song-option > button {
+    border-radius: 50%;
+    height: 50%;
+    margin: auto 10px;
+}
+
+.song {
+    border: 2px solid #333;
+    padding: 3px;
+    display: flex;
+    flex-direction: row;
+    max-height: 75px;
+    width: 100%;
+}
+
+.song > img {
+    max-width: 75px;
+    max-height: 75px;
+}
+
+.song-info {
+    padding-left: 5px;
+}
+
+.search {
+    display: flex;
+}
+
+.search > input[type="text"] {
+    width: 100%;
+    font-size: 18px;
+}
+
+.search > input[type="button"] {
+    font-size: 18px;
+    margin: 5px 0;
+    margin-left: -65px;
+}
