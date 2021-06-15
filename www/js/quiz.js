@@ -1,9 +1,5 @@
 "use strict";
 
-window.onbeforeunload = function() {
-    return "You will lose your quiz creation progress after leaving this page!";
-}
-
 const selectedSongs = [];
 
 const quizNameField = document.getElementById("quiz-name");
@@ -15,12 +11,16 @@ if (quizNameField && songNameField && createQuizButton && searchSongButton) {
     quizNameField.addEventListener("input", function(event) {
         // todo: filter & validate name, use quizNameError to notify user
         const quizNameError = document.getElementById("quiz-name-error");
-        createQuizButton.disabled = !(event.target.value && event.target.value.length > 0 && selectedSongs.length > 0);
+        updateCreateQuizButtonStatus();
     });
     songNameField.addEventListener("input", function(event) {
         searchSongButton.disabled = !(event.target.value && event.target.value.length > 0);
     });
     searchSongButton.addEventListener("click", onSearchSongClicked);
+}
+
+function updateCreateQuizButtonStatus() {
+    createQuizButton.disabled = !(quizNameField && quizNameField.value.length > 0 && selectedSongs.length > 0);
 }
 
 function onSearchSongClicked(event) {
@@ -92,15 +92,6 @@ function createSongWithActionTag(index, song, songIdPrefix, actionText, actionId
     return songWithActionDiv;
 }
 
-function selectSongOption(event) {
-    event.preventDefault();
-    const selectSearchResultButton = event.target;
-    const selectedSongOptionId = selectSearchResultButton.id.replace("select-search-result-", "search-result-");
-    selectSong(fetchSong(document.getElementById(selectedSongOptionId)));
-    const searchResults = document.getElementById("search-results");
-    searchResults.style = "display: none";
-}
-
 function fetchSong(selectedSongOption) {
     const song = {};
 
@@ -132,9 +123,19 @@ function rerenderSelectedSongs() {
     }
 }
 
-function selectSong(song) {
+function selectSongOption(event) {
+    event.preventDefault();
+    const selectSearchResultButton = event.target;
+    const selectedSongOptionId = selectSearchResultButton.id.replace("select-search-result-", "search-result-");
+    const song = fetchSong(document.getElementById(selectedSongOptionId));
     selectedSongs.push(song); // todo: check song id (to exclude duplicates)
     rerenderSelectedSongs();
+
+    const searchResults = document.getElementById("search-results");
+    searchResults.style = "display: none";
+    const searchResultsLabel = document.getElementById("search-results-label");
+    searchResultsLabel.style = "display: none";
+    updateCreateQuizButtonStatus();
 }
 
 function removeSelectedSong(event) {
@@ -142,10 +143,10 @@ function removeSelectedSong(event) {
     const removeSelectedSongButton = event.target;
     let selectedSongId = removeSelectedSongButton.id.replace("remove-selected-song-", "");
     selectedSongId = selectedSongId && parseInt(selectedSongId);
-    console.log(selectedSongId); // fixme: delete element from array by index
-    if (selectedSongId) {
-        selectedSongs.pop(selectedSongId);
+    if (selectedSongId !== null) {
+        selectedSongs.splice(selectedSongId, 1);
         rerenderSelectedSongs();
+        updateCreateQuizButtonStatus();
     }
 }
 
