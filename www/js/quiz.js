@@ -50,7 +50,7 @@ function onSearchSongClicked(event) {
         for (const [index, song] of songs.entries()) {
             searchResults.appendChild(
                 createSongWithActionTag(
-                    index, song, "search-result", "V", "select-search-result", selectSongOption
+                    index, song, "search-result", "select", "select-search-result", selectSongOption
                 )
             );
         }
@@ -60,7 +60,7 @@ function onSearchSongClicked(event) {
     }
 }
 
-function createSongWithActionTag(index, song, songIdPrefix, actionText, actionIdPrefix, actionEventListener) {
+function createSongWithActionTag(index, song, songIdPrefix, actionButtonClass, actionIdPrefix, actionEventListener) {
     const songWithActionDiv = document.createElement("div");
     songWithActionDiv.className = "song-option";
     songWithActionDiv.id = `${songIdPrefix}-${index}`;
@@ -82,7 +82,7 @@ function createSongWithActionTag(index, song, songIdPrefix, actionText, actionId
     songDiv.appendChild(songInfoDiv);
 
     const songActionButton = document.createElement("button");
-    songActionButton.innerText = actionText;
+    songActionButton.className = actionButtonClass;
     songActionButton.id = `${actionIdPrefix}-${index}`;
     songActionButton.addEventListener("click", actionEventListener);
 
@@ -116,7 +116,7 @@ function rerenderSelectedSongs() {
         for (const [index, song] of selectedSongs.entries()) {
             selectedSongsDiv.appendChild(
                 createSongWithActionTag(
-                    index, song, "selected-song", "X", "remove-selected-song", removeSelectedSong
+                    index, song, "selected-song", "remove", "remove-selected-song", removeSelectedSong
                 )
             );
         }

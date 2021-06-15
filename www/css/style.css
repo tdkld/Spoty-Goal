@@ -101,9 +101,30 @@ a {
 }
 
 .song-option > button {
+    border: none;
     border-radius: 50%;
-    height: 50%;
+    height: 25px;
+    width: 25px;
     margin: auto 10px;
+    color: #fff;
+    font-weight: 500;
+    font-size: 18px;
+}
+
+.select {
+    background-color: #708e72;
+}
+
+.remove {
+    background-color: #b4575c;
+}
+
+.song-option > button.select:after {
+    content: 'V';
+}
+
+.song-option > button.remove:after {
+    content: 'X';
 }
 
 .song {
