@@ -35,8 +35,13 @@ function onSearchSongClicked(event) {
     searchResultsLabel.style = "display: inline";
     searchResultsLabel.innerText = "Searching for song..."
 
-    const songs = searchSpotifySongs(songNameField.value);
-    if (!songs) {
+    searchSpotifySongs(songNameField.value).then(showSearchSongResults);
+}
+
+function showSearchSongResults(songs) {
+    const searchResultsLabel = document.getElementById("search-results-label");
+
+    if (!songs || songs == null) {
         searchResultsLabel.innerText = "No song found."
         return;
     }
@@ -150,18 +155,21 @@ function removeSelectedSong(event) {
     }
 }
 
-function searchSpotifySongs(songName) {
-    // todo: perform song search
-    return Array.of(
-        {
-            name: 'First song name',
-            author: 'First author',
-            thumb: '/img/spotify-song-pic.jpg'
-        },
-        {
-            name: 'Second song name',
-            author: 'Second author',
-            thumb: '/img/spotify-song-pic.jpg'
-        },
-    );
+async function searchSpotifySongs(songName) {
+    try {
+        const response = await fetch("/api.php?" + new URLSearchParams({
+            method: 'search',
+            song: songName,
+        }));
+        const data = await response.json();
+        if (data.data) {
+            return data.data;
+        } else if (data.error) {
+            console.error("Error using API: ", data.error);
+        } else {
+            console.error("Unexpected API response structure: ", JSON.stringify(data));
+        }
+    } catch (reason) {
+        console.error(reason);
+    }
 }
